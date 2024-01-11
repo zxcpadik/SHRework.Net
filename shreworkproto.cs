@@ -21,6 +21,9 @@ namespace SHGui {
         const string flushURL = "/api/v1/flush?username={0}&password={1}";
         const string lastURL = "/api/v1/last?username={0}&password={1}";
 
+        const string apiV1 = "/api/v1";
+        const string apiV2 = "/api/v2";
+
         string serverAddr;
 
         public SHProto(string serverAddr) {
@@ -75,6 +78,15 @@ namespace SHGui {
             string result = MakeGET(string.Format(lastURL, credentials.username, credentials.password));
             return JsonConvert.DeserializeObject<TicketServiceResult>(result);
         }
+
+        public ApiVersionResult RequestAPIV1(Credentials credentials) {
+            string result = MakeGET(apiV1);
+            return JsonConvert.DeserializeObject<ApiVersionResult>(result);
+        }
+        public ApiVersionResult RequestAPIV2(Credentials credentials) {
+            string result = MakeGET(apiV2);
+            return JsonConvert.DeserializeObject<ApiVersionResult>(result);
+        }
     }
 
     public struct Credentials {
@@ -103,4 +115,9 @@ namespace SHGui {
         public int ID;
     }
 
+    public struct ApiVersionResult {
+        public bool ok;
+        public short status;
+        public int version;
+    }
 }
