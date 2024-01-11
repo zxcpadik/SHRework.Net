@@ -13,6 +13,7 @@ namespace SHGui {
         const string authURL = "/api/v2/auth?username={0}&password={1}";
         const string createURL = "/api/v2/create?username={0}&password={1}";
         const string changeURL = "/api/v2/auth?username={0}&password={1}&newpassword={2}";
+        const string deleteURL = "/api/v2/delete?username={0}&password={1}";
 
         const string pushURL = "/api/v1/push?username={0}&password={1}&destination={2}&data={3}";
         const string pushRIDURL = "/api/v1/push?username={0}&password={1}&destination={2}&rid={3}&data={4}";
@@ -49,6 +50,10 @@ namespace SHGui {
         }
         public SecureResult RequestChange(Credentials credentials, string newpass) {
             string result = MakeGET(string.Format(changeURL, credentials.username, credentials.password, newpass));
+            return JsonConvert.DeserializeObject<SecureResult>(result);
+        }
+        public SecureResult RequestDelete(Credentials credentials, string newpass) {
+            string result = MakeGET(string.Format(deleteURL, credentials.username, credentials.password));
             return JsonConvert.DeserializeObject<SecureResult>(result);
         }
 
