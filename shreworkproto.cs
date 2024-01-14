@@ -69,7 +69,7 @@ namespace SHGui {
                 MakeGET(string.Format(pushURL, credentials.username, credentials.password, destination, data));
             return JsonConvert.DeserializeObject<TicketResult>(result);
         }
-        public TicketResult RequestPull(Credentials credentials, int offset, int lenght) {
+        public TicketResult RequestPull(Credentials credentials, int offset = 0, int lenght = 0) { // DO
             string result = MakeGET(string.Format(pullURL, credentials.username, credentials.password, offset, lenght));
             return JsonConvert.DeserializeObject<TicketResult>(result);
         }
