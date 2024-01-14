@@ -16,8 +16,8 @@ namespace SHGui {
         internal const string deleteURL = "/api/v2/delete?username={0}&password={1}";
 
         internal const string pushURL = "/api/v1/push?username={0}&password={1}&destination={2}&data={3}";
-        internal const string pushRIDURL = "/api/v1/push?username={0}&password={1}&destination={2}&rid={3}&data={4}";
-        internal const string pullURL = "/api/v1/pull?username={0}&password={1}&offset={2}&lenght={3}";
+        internal const string pushRIDURL = "/api/v1/push?username={0}&password={1}&destination={2}&responseid={3}&data={4}";
+        internal const string pullURL = "/api/v1/pull?username={0}&password={1}&offset={2}&count={3}";
         internal const string flushURL = "/api/v1/flush?username={0}&password={1}";
         internal const string lastURL = "/api/v1/last?username={0}&password={1}";
 
