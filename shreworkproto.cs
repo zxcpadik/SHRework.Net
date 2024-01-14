@@ -10,28 +10,31 @@ using System.Threading.Tasks;
 
 namespace SHGui {
     public class SHProto {
-        const string authURL = "/api/v2/auth?username={0}&password={1}";
-        const string createURL = "/api/v2/create?username={0}&password={1}";
-        const string changeURL = "/api/v2/auth?username={0}&password={1}&newpassword={2}";
-        const string deleteURL = "/api/v2/delete?username={0}&password={1}";
+        internal const string authURL = "/api/v2/auth?username={0}&password={1}";
+        internal const string createURL = "/api/v2/create?username={0}&password={1}";
+        internal const string changeURL = "/api/v2/auth?username={0}&password={1}&newpassword={2}";
+        internal const string deleteURL = "/api/v2/delete?username={0}&password={1}";
 
-        const string pushURL = "/api/v1/push?username={0}&password={1}&destination={2}&data={3}";
-        const string pushRIDURL = "/api/v1/push?username={0}&password={1}&destination={2}&rid={3}&data={4}";
-        const string pullURL = "/api/v1/pull?username={0}&password={1}&offset={2}&lenght={3}";
-        const string flushURL = "/api/v1/flush?username={0}&password={1}";
-        const string lastURL = "/api/v1/last?username={0}&password={1}";
+        internal const string pushURL = "/api/v1/push?username={0}&password={1}&destination={2}&data={3}";
+        internal const string pushRIDURL = "/api/v1/push?username={0}&password={1}&destination={2}&rid={3}&data={4}";
+        internal const string pullURL = "/api/v1/pull?username={0}&password={1}&offset={2}&lenght={3}";
+        internal const string flushURL = "/api/v1/flush?username={0}&password={1}";
+        internal const string lastURL = "/api/v1/last?username={0}&password={1}";
 
-        const string apiV1 = "/api/v1";
-        const string apiV2 = "/api/v2";
+        internal const string apiV1 = "/api/v1";
+        internal const string apiV2 = "/api/v2";
 
-        string serverAddr;
+        const int API_V1_VER = 1;
+        const int API_V2_VER = 1;
+
+        public string ServerAddr { private set; get; }
 
         public SHProto(string serverAddr) {
-            this.serverAddr = serverAddr;
+            this.ServerAddr = serverAddr;
         }
 
         public string MakeGET(string url) {
-            return Get("http://" + serverAddr + url);
+            return Get("http://" + ServerAddr + url);
         }
 
         public string Get(string uri) {
@@ -55,12 +58,12 @@ namespace SHGui {
             string result = MakeGET(string.Format(changeURL, credentials.username, credentials.password, newpass));
             return JsonConvert.DeserializeObject<SecureResult>(result);
         }
-        public SecureResult RequestDelete(Credentials credentials, string newpass) {
+        public SecureResult RequestDelete(Credentials credentials) {
             string result = MakeGET(string.Format(deleteURL, credentials.username, credentials.password));
             return JsonConvert.DeserializeObject<SecureResult>(result);
         }
 
-        public TicketResult RequestPush(Credentials credentials, int destination, string data, string key, int? rid) {
+        public TicketResult RequestPush(Credentials credentials, int destination, string data, int? rid) {
             string result = rid.HasValue ? 
                 MakeGET(string.Format(pushRIDURL, credentials.username, credentials.password, destination, rid, data)) :
                 MakeGET(string.Format(pushURL, credentials.username, credentials.password, destination, data));
@@ -79,11 +82,11 @@ namespace SHGui {
             return JsonConvert.DeserializeObject<TicketServiceResult>(result);
         }
 
-        public ApiVersionResult RequestAPIV1(Credentials credentials) {
+        public ApiVersionResult RequestAPIV1() {
             string result = MakeGET(apiV1);
             return JsonConvert.DeserializeObject<ApiVersionResult>(result);
         }
-        public ApiVersionResult RequestAPIV2(Credentials credentials) {
+        public ApiVersionResult RequestAPIV2() {
             string result = MakeGET(apiV2);
             return JsonConvert.DeserializeObject<ApiVersionResult>(result);
         }
